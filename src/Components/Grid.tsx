@@ -1,6 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-export const Grid = () => {
+type GridProps = {
+  color: string;
+  changeColorOnHover: boolean;
+};
+
+export const Grid: React.FC<GridProps> = ({ color, changeColorOnHover }) => {
   const rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   const columns = [
     "1",
@@ -19,16 +24,22 @@ export const Grid = () => {
     "14",
   ];
 
-  const Cell = () => {
+  type CellProps = {
+    r: number;
+    c: number;
+  };
+
+  const Cell: React.FC<CellProps> = ({ r, c }) => {
     const [isHovered, setIsHovered] = useState(false);
+
     return (
-      <td
+      <div
+        key={`cell-${r}-${c}`}
         style={{
-          backgroundColor: isHovered ? "red" : "#419ad9",
-          height: 25,
-          width: 25,
-          padding: 0,
-          border: "1px solid black",
+          backgroundColor: isHovered && changeColorOnHover ? "red" : color,
+          aspectRatio: "1 / 1",
+          marginRight: "1px",
+          marginBottom: "1px",
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -37,54 +48,55 @@ export const Grid = () => {
   };
 
   return (
-    <table
+    <div
       style={{
-        borderCollapse: "collapse",
-        borderSpacing: 0,
+        display: "grid",
+        gridTemplateColumns: `auto repeat(${columns.length}, 1fr)`,
+        gridTemplateRows: `auto repeat(${rows.length}, 1fr)`,
+        width: "100%",
+        maxWidth: "500px",
+        margin: "0 auto",
+        backgroundColor: "black",
       }}
     >
-      <thead>
-        <tr>
-          <th
-            key={"blank"}
+      <div style={{ backgroundColor: "white" }} />
+
+      {Array.from({ length: columns.length }).map((_, c) => (
+        <div
+          key={`col-${c}`}
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            padding: "4px",
+            backgroundColor: "white",
+            marginBottom: "1px",
+          }}
+        >
+          {columns[c]}
+        </div>
+      ))}
+
+      {Array.from({ length: rows.length }).map((_, r) => (
+        <React.Fragment key={`row-${r}`}>
+          <div
             style={{
-              width: 25,
-              height: 25,
-              padding: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontWeight: "bold",
+              padding: "4px",
+              backgroundColor: "white",
+              marginRight: "1px",
             }}
-          ></th>
-          {columns.map((item) => (
-            <th
-              key={item}
-              style={{
-                width: 25,
-                height: 25,
-                padding: 0,
-              }}
-            >
-              {item}
-            </th>
+          >
+            {rows[r]}
+          </div>
+
+          {Array.from({ length: columns.length }).map((_, c) => (
+            <Cell r={r} c={c} />
           ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((rowItem) => (
-          <tr key={rowItem}>
-            <td
-              style={{
-                width: 25,
-                height: 25,
-                padding: 0,
-              }}
-            >
-              {rowItem}
-            </td>
-            {columns.map((_, i) => (
-              <Cell key={i} />
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+        </React.Fragment>
+      ))}
+    </div>
   );
 };

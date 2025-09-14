@@ -1,14 +1,13 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import WebSocketComponent from "./WebSocketComponent";
 import { Grid } from "./Components/Grid";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Grid />
+        <Grid color={"#72f7a1"} changeColorOnHover={true} />
+        <Grid color={"#419ad9"} changeColorOnHover={false} />
       </header>
     </div>
   );
