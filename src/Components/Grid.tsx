@@ -1,11 +1,17 @@
 import React, { useState } from "react";
+import Aircraft_Carrier1 from "../Images/Aircraft_Carrier1.png";
+import Aircraft_Carrier2 from "../Images/Aircraft_Carrier2.png";
+import Aircraft_Carrier3 from "../Images/Aircraft_Carrier3.png";
+import Aircraft_Carrier4 from "../Images/Aircraft_Carrier4.png";
+import Aircraft_Carrier5 from "../Images/Aircraft_Carrier5.png";
 
 type GridProps = {
   color: string;
-  changeColorOnHover: boolean;
+  player: "Opponent" | "Mine";
+  ships: any;
 };
 
-export const Grid: React.FC<GridProps> = ({ color, changeColorOnHover }) => {
+export const Grid: React.FC<GridProps> = ({ color, player, ships }) => {
   const rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   const columns = [
     "1",
@@ -31,19 +37,85 @@ export const Grid: React.FC<GridProps> = ({ color, changeColorOnHover }) => {
 
   const Cell: React.FC<CellProps> = ({ r, c }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const element = document.getElementById("Mine-9-13");
+    console.log(element?.offsetWidth);
 
     return (
       <div
         key={`cell-${r}-${c}`}
+        id={`${player}-${r}-${c}`}
         style={{
-          backgroundColor: isHovered && changeColorOnHover ? "red" : color,
+          backgroundColor: isHovered && player === "Opponent" ? "red" : color,
           aspectRatio: "1 / 1",
-          marginRight: "1px",
-          marginBottom: "1px",
+          borderBottom: "1px solid black",
+          borderRight: "1px solid black",
+          position: "relative",
+          overflow: "visible",
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-      />
+      >
+        {r === 1 && c === 1 && (
+          <img
+            src={Aircraft_Carrier1}
+            alt={"ship"}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "auto",
+              left: 0,
+            }}
+          />
+        )}
+        {r === 1 && c === 2 && (
+          <img
+            src={Aircraft_Carrier2}
+            alt={"ship"}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "auto",
+              left: 0,
+            }}
+          />
+        )}
+        {r === 1 && c === 3 && (
+          <img
+            src={Aircraft_Carrier3}
+            alt={"ship"}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "auto",
+              left: 0,
+            }}
+          />
+        )}
+        {r === 1 && c === 4 && (
+          <img
+            src={Aircraft_Carrier4}
+            alt={"ship"}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "auto",
+              left: 0,
+            }}
+          />
+        )}
+        {r === 1 && c === 5 && (
+          <img
+            src={Aircraft_Carrier5}
+            alt={"ship"}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "auto",
+              left: 0,
+            }}
+          />
+        )}
+      </div>
     );
   };
 
@@ -56,7 +128,7 @@ export const Grid: React.FC<GridProps> = ({ color, changeColorOnHover }) => {
         width: "100%",
         maxWidth: "500px",
         margin: "0 auto",
-        backgroundColor: "black",
+        position: "relative",
       }}
     >
       <div style={{ backgroundColor: "white" }} />
@@ -69,7 +141,7 @@ export const Grid: React.FC<GridProps> = ({ color, changeColorOnHover }) => {
             fontWeight: "bold",
             padding: "4px",
             backgroundColor: "white",
-            marginBottom: "1px",
+            borderBottom: "1px solid black",
           }}
         >
           {columns[c]}
@@ -86,7 +158,7 @@ export const Grid: React.FC<GridProps> = ({ color, changeColorOnHover }) => {
               fontWeight: "bold",
               padding: "4px",
               backgroundColor: "white",
-              marginRight: "1px",
+              borderRight: "1px solid black",
             }}
           >
             {rows[r]}

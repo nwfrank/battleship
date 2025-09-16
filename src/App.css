@@ -9,3 +9,16 @@
   align-items: center;
   justify-content: center;
 }
+
+.flex-container {
+  display: flex;
+  flex-direction: row; /* Default for larger screens */
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  /* Example breakpoint for screens up to 768px wide */
+  .flex-container {
+    flex-direction: column; /* Switches to column layout on smaller screens */
+  }
+}
